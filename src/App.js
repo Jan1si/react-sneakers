@@ -41,9 +41,9 @@ function App() {
           {arr.map((item, key) =>
             <Card
               key={key}
-              titleProduct={item.title}
-              priceProduct={item.price}
-              imgProduct={item.img}
+              title={item.title}
+              price={item.price}
+              imgUrl={item.img}
             />
           )}
         </ul>
