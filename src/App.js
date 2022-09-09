@@ -38,9 +38,9 @@ function App() {
           </div>
         </div>
         <ul className="list__product mt-40 d-flex">
-          {arr.map((item, key) =>
+          {arr.map((item, idx) =>
             <Card
-              key={key}
+              idx={idx}
               title={item.title}
               price={item.price}
               imgUrl={item.img}

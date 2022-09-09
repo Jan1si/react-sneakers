@@ -1,8 +1,8 @@
 import React from 'react'
 
-export const Card = ({title, price, imgUrl}) => {
+export const Card = ({title, price, imgUrl, idx}) => {
   return (
-    <div className="card ">
+    <div key={idx} className="card ">
       <div className="favorite">
         <img src="img/unliked.svg" alt="Unliked" />
       </div>
@@ -13,7 +13,7 @@ export const Card = ({title, price, imgUrl}) => {
           <span>Цена: </span>
           <b>{price} р.</b>
         </div>
-        <button className="btn__cart">
+        <button className="btn__cart" onClick={() => {alert("Click")}}>
           <img width={11} height={11} src="img/plus.svg" alt="Plus" />
         </button>
       </div>
