@@ -1,0 +1,38 @@
+header {
+    padding: 40px;
+    border: 1px solid #EAEAEA;
+
+    .header__logo {
+        grid-gap: 15px;
+
+        .logo__img {
+            width: 40px;
+            height: 40px;
+        }
+
+        .logo__text {
+            >h3 {
+                color: #000000;
+                font-size: 20px;
+                font-weight: bold;
+                text-transform: uppercase;
+            }
+
+            >p {
+                font-size: 14px;
+                color: #9D9D9D;
+
+            }
+        }
+
+        .header__nav {
+            .nav__item {
+                >span {
+                    color: #5C5C5C;
+                    font-size: 14px;
+                }
+            }
+        }
+
+    }
+}
