@@ -1,33 +1,31 @@
 import { Card } from "./components/Card";
 import { Drawer } from "./components/Drawer";
 import { Header } from "./components/Header";
-import {useState} from "react"
-
-const arr = [{
-  title: "Мужские Кроссовки Nike Blazer Mid Suede",
-  price: 12999,
-  img: "1.jpg",
-},
-{
-  title: "Мужские Кроссовки Nike Air Max 270",
-  price: 13999,
-  img: "2.jpg",
-},
-{
-  title: "Мужские Кроссовки Nike Blazer Mid Suede",
-  price: 8499,
-  img: "3.jpg",
-},
-{
-  title: "Кроссовки Puma X Aka Boku Future Rider",
-  price: 8999,
-  img: "4.jpg",
-}
-];
+import {useState, useEffect} from "react"
 
 function App() {
 
+  const [items, setItems] = useState([])
   const [cartOpened, setCartOpened] = useState(false);
+  const [loader, setLoader] = useState(true);
+
+  fetch("https://631f591e58a1c0fe9f6736c1.mockapi.io/items")
+    .then(response => {
+      return response.json();
+    }).then((json) => {
+      console.log(json);
+    });
+
+  useEffect(() => {
+    fetch("https://631f591e58a1c0fe9f6736c1.mockapi.io/items")
+    .then(response => {
+      return response.json();
+    }).then((json) => {
+      console.log(json);
+      setItems(json)
+      setLoader(false);
+    });
+  }, [])
 
   return (
     <div className="wrapper">
@@ -42,7 +40,8 @@ function App() {
           </div>
         </div>
         <ul className="list__product mt-40 d-flex">
-          {arr.map((item, idx) =>
+          {loader && "Загрузка"}
+          {items.map((item, idx) =>
             <Card
               key={idx}
               title={item.title}
