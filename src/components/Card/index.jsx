@@ -3,12 +3,19 @@ import styles from './Card.module.scss';
 import { useState } from 'react';
 
 
-export const Card = ({ title, price, imgUrl, onPlus, onFavorite }) => {
+export const Card = ({ title, price, imgUrl, onPlus,onRemove, onFavorite }) => {
 
   const [isAdded, setIsAdded] = useState(false);
 
   const handleClick = () => {
-    setIsAdded(!isAdded);
+    
+    if (!isAdded) {
+      setIsAdded(!isAdded);
+      onPlus({title, price, imgUrl});
+    } else {
+      setIsAdded(!isAdded);
+      onRemove({title});
+    }
   }
 
   return (
