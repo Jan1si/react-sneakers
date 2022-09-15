@@ -24,10 +24,10 @@ function App() {
     setCartItems(cartItems => [...cartItems, obj]);
   };
 
-  const onRemoveItemCart = (title) => {
-    setCartItems(cartItems.filter(obj => obj.title != title));
+  const onRemoveItemCart = ({title}) => {
+    setCartItems(cartItems.filter(item => item.title !== title));
   }
-
+  
   console.log(cartItems);
 
   return (

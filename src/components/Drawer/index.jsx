@@ -1,7 +1,11 @@
 import React from 'react'
 import styles from './Drawer.module.scss';
 
+
+
 export const Drawer = ({ cartItems = [], onClose }) => {
+
+
   return (
     <div className={styles.owerlay}>
       <div className={styles.drawer}>
@@ -11,7 +15,7 @@ export const Drawer = ({ cartItems = [], onClose }) => {
         </div>
         <div className={styles.content__drawer}>
           {cartItems.map((item, key) => (
-            <div className={styles.cart__item}>
+            <div key={key} className={styles.cart__item}>
             <div style={{ backgroundImage: `url(img/sneakers/${item.imgUrl})` }} className={styles.img__item}></div>
             <div className={styles.text__item}>
               <p>{item.title}</p>
