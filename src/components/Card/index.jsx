@@ -8,7 +8,7 @@ export const Card = ({ title, price, imgUrl, onPlus, onRemove, onFavorite }) => 
   const [isAdded, setIsAdded] = useState(false);
 
   const handleClick = () => {
-    !isAdded ? onPlus({title, price, imgUrl}) : onRemove({title});
+    onPlus({title, price, imgUrl});
     setIsAdded(!isAdded);
   }
 
