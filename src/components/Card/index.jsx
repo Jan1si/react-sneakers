@@ -1,14 +1,16 @@
 import React from 'react'
 import styles from './Card.module.scss';
 import { useState } from 'react';
+import { LoadSpiner } from '../LoadSpiner'
 
 
-export const Card = ({ title, price, imgUrl, onPlus, onRemove, onFavorite }) => {
+export const Card = ({ title, price, imgUrl, onPlus, onFavorite }) => {
 
   const [isAdded, setIsAdded] = useState(false);
+  const [loadPost, setLoadPost] = useState(false);
 
   const handleClick = () => {
-    onPlus({title, price, imgUrl});
+    onPlus({ title, price, imgUrl, loadPost }, setLoadPost);
     setIsAdded(!isAdded);
   }
 
@@ -24,10 +26,13 @@ export const Card = ({ title, price, imgUrl, onPlus, onRemove, onFavorite }) => 
           <span>Цена: </span>
           <b>{price} р.</b>
         </div>
-        <img
-          className={styles.plus}
-          onClick={handleClick}
-          src={isAdded ? "/img/btn-checked.svg" : "/img/btn-plus.svg"} alt="Plus" />
+        {loadPost ? <LoadSpiner /> :
+          (<img
+            className={styles.plus}
+            onClick={handleClick}
+            src={isAdded ? "/img/btn-checked.svg" : "/img/btn-plus.svg"} alt="Plus" />
+          )
+        }
       </div>
     </div>
   )

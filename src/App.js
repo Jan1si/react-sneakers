@@ -26,15 +26,20 @@ function App() {
       });
   }, []);
 
-  const onAddItemCart = (obj) => {
+  const onAddItemCart = (obj, setLoad) => {
+    setLoad(true);
     axios.post("https://631f591e58a1c0fe9f6736c1.mockapi.io/cart", obj)
-    setCartItems(cartItems => [...cartItems, obj]);
+    .then(() => {
+      setCartItems(cartItems => [...cartItems, obj]);
+      setLoad(false);
+    });
+    
   };
 
   const onDeleteItemCart = (id) => {
     console.log(id);
     axios.delete(`https://631f591e58a1c0fe9f6736c1.mockapi.io/cart/${id}`);
-    setCartItems((cartItems) => cartItems.filter((item) => item.id !== id));
+    // setCartItems((cartItems) => cartItems.filter((item) => item.id !== id));
   };
 
   return (
@@ -61,6 +66,7 @@ function App() {
         </div>
         <ul className="list__product mt-40 d-flex">
           {loader && "Загрузка"}
+          {/* {loadPost && <LoadSpiner />} */}
           {items
             .filter(item => item.title.toLowerCase().includes(searchValue.toLowerCase()))
             .map((item, idx) =>
@@ -70,7 +76,7 @@ function App() {
                 price={item.price}
                 imgUrl={item.img}
                 onFavorite={() => alert("Добавленно в закладки")}
-                onPlus={(obj) => onAddItemCart(obj)}
+                onPlus={(obj, setLoad) => onAddItemCart(obj, setLoad)}
               />
             )}
         </ul>
