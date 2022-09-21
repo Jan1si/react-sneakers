@@ -32,9 +32,11 @@ function App() {
   };
 
   const onDeleteItemCart = (id) => {
+    console.log(cartItems[0].title);
     console.log(id);
-    axios.delete(`https://631f591e58a1c0fe9f6736c1.mockapi.io/cart/${id}`);
     setCartItems((cartItems) => cartItems.filter((item) => item.id !== id));
+    axios.delete(`https://631f591e58a1c0fe9f6736c1.mockapi.io/cart/${id}`);
+    
   };
 
   return (
