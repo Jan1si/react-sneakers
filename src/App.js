@@ -39,7 +39,7 @@ function App() {
   const onDeleteItemCart = (id) => {
     console.log(id);
     axios.delete(`https://631f591e58a1c0fe9f6736c1.mockapi.io/cart/${id}`);
-    // setCartItems((cartItems) => cartItems.filter((item) => item.id !== id));
+    setCartItems((cartItems) => cartItems.filter((item) => item.id !== id));
   };
 
   return (

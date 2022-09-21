@@ -2,9 +2,7 @@ import React from 'react'
 import styles from './Drawer.module.scss';
 
 export const Drawer = ({ cartItems = [], onClose, onDelete }) => {
-
-  console.log(cartItems.length);
-
+  console.log(cartItems);
   return (
     <div className={styles.owerlay}>
       <div className={styles.drawer}>
