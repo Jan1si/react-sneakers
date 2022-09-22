@@ -8,9 +8,12 @@ import axios from "axios";
 function App() {
   const [items, setItems] = useState([]);
   const [cartItems, setCartItems] = useState([]);
+  const [favorite, setFavorite] = useState([]);
   const [cartOpened, setCartOpened] = useState(false);
   const [searchValue, setSearchValue] = useState('');
   const [loader, setLoader] = useState(true);
+
+  console.log(favorite);
 
   useEffect(() => {
     axios.get("https://631f591e58a1c0fe9f6736c1.mockapi.io/items")
@@ -40,6 +43,10 @@ function App() {
 
   };
 
+  const onAddFavorite = (obj) => {
+    setFavorite((favorite) => [...favorite, obj]);
+  }
+
   const onDeleteItemCart = (id) => {
     axios.delete(`https://631f591e58a1c0fe9f6736c1.mockapi.io/cart/${id}`);
     setCartItems((cartItems) => cartItems.filter((item) => item.id !== id));
@@ -63,6 +70,7 @@ function App() {
             searchValue={searchValue}
             setSearchValue={setSearchValue}
             loader={loader}
+            onAddFavorite={onAddFavorite}
             onAddItemCart={onAddItemCart}
           />
         }

@@ -2,7 +2,7 @@ import React from 'react'
 import { Card } from "../Card";
 import { Search } from "../Search";
 
-export const Main = ({items, loader, searchValue, setSearchValue, onAddItemCart}) => {
+export const Main = ({items, loader, searchValue, setSearchValue, onAddItemCart, onAddFavorite}) => {
   return (
     <div className="content">
         <div className="header__content">
@@ -26,7 +26,7 @@ export const Main = ({items, loader, searchValue, setSearchValue, onAddItemCart}
                 title={item.title}
                 price={item.price}
                 imgUrl={item.img}
-                onFavorite={() => alert("Добавленно в закладки")}
+                onFavorite={(obj) => onAddFavorite(obj)}
                 onPlus={(obj, setLoad) => onAddItemCart(obj, setLoad)}
               />
             )}
