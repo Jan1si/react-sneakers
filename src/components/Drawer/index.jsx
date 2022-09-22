@@ -3,8 +3,6 @@ import styles from './Drawer.module.scss';
 
 export const Drawer = ({ cartItems = [], onClose, onDelete }) => {
 
-  console.log(cartItems.length);
-
   return (
     <div className={styles.owerlay}>
       <div className={styles.drawer}>
@@ -31,7 +29,7 @@ export const Drawer = ({ cartItems = [], onClose, onDelete }) => {
               <img width={120} height={120} src="img/empty-cart.jpg" alt="Empty" />
               <h2>Корзина пустая</h2>
               <p>Добавьте хотя бы одну пару кроссовок, чтобы сделать заказ.</p>
-              <button className={`${styles.green__btn} ${styles.empty__btn}`}><img src="img/arrow.svg" alt="Arrow" />Вернуться назад</button>
+              <button onClick={onClose} className={`${styles.green__btn} ${styles.empty__btn}`}><img src="img/arrow.svg" alt="Arrow" />Вернуться назад</button>
             </div>
             )
           }

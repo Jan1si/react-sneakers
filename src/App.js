@@ -1,12 +1,11 @@
-import { Card } from "./components/Card";
 import { Drawer } from "./components/Drawer";
 import { Header } from "./components/Header";
+import { Main } from "./components/Main";
 import { useState, useEffect } from "react";
+import { Routes, Route } from 'react-router-dom';
 import axios from "axios";
-import { Search } from "./components/Search";
 
 function App() {
-
   const [items, setItems] = useState([]);
   const [cartItems, setCartItems] = useState([]);
   const [cartOpened, setCartOpened] = useState(false);
@@ -24,27 +23,26 @@ function App() {
       .then(({ data }) => {
         setCartItems(data);
       });
+
   }, []);
 
   const onAddItemCart = (obj, setLoad) => {
     setLoad(true);
     axios.post("https://631f591e58a1c0fe9f6736c1.mockapi.io/cart", obj)
-    .then(() => {
-      setCartItems(cartItems => [...cartItems, obj]);
-      setLoad(false);
-    });
-    
+      .then(() => {
+        setCartItems((cartItems) => [...cartItems, obj]);
+        setLoad(false);
+        axios.get("https://631f591e58a1c0fe9f6736c1.mockapi.io/cart")
+          .then(({ data }) => {
+            setCartItems(data);
+          });
+      });
+
   };
 
   const onDeleteItemCart = (id) => {
-    console.log(cartItems[0].title);
-    console.log(id);
-
-    setCartItems((cartItems) => cartItems.filter((item) => item.id !== id));
     axios.delete(`https://631f591e58a1c0fe9f6736c1.mockapi.io/cart/${id}`);
-    
-    
-
+    setCartItems((cartItems) => cartItems.filter((item) => item.id !== id));
   };
 
   return (
@@ -57,35 +55,19 @@ function App() {
         />
       }
       <Header onClickCart={() => setCartOpened(true)} />
-      <div className="content">
-        <div className="header__content">
-          {
-            searchValue ?
-              <h2>Поиск по запросу: "{searchValue}"</h2>
-              : <h1>Все кроссовки</h1>
-          }
-          <Search
+      <Routes>
+        <Route path="/test" element={<h1>asdkasd</h1>} />
+        <Route exact path="/" element={
+          <Main
+            items={items}
             searchValue={searchValue}
             setSearchValue={setSearchValue}
+            loader={loader}
+            onAddItemCart={onAddItemCart}
           />
-        </div>
-        <ul className="list__product mt-40 d-flex">
-          {loader && "Загрузка"}
-          {/* {loadPost && <LoadSpiner />} */}
-          {items
-            .filter(item => item.title.toLowerCase().includes(searchValue.toLowerCase()))
-            .map((item, idx) =>
-              <Card
-                key={idx}
-                title={item.title}
-                price={item.price}
-                imgUrl={item.img}
-                onFavorite={() => alert("Добавленно в закладки")}
-                onPlus={(obj, setLoad) => onAddItemCart(obj, setLoad)}
-              />
-            )}
-        </ul>
-      </div>
+        }
+        />
+      </Routes>
     </div>
   );
 }

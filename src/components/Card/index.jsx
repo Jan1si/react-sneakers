@@ -4,13 +4,13 @@ import { useState } from 'react';
 import { LoadSpiner } from '../LoadSpiner'
 
 
-export const Card = ({ title, price, imgUrl, onPlus, onFavorite }) => {
+export const Card = ({title, price, imgUrl, onPlus, onFavorite }) => {
 
   const [isAdded, setIsAdded] = useState(false);
   const [loadPost, setLoadPost] = useState(false);
 
   const handleClick = () => {
-    onPlus({ title, price, imgUrl, loadPost }, setLoadPost);
+    onPlus({title, price, imgUrl, loadPost }, setLoadPost);
     setIsAdded(!isAdded);
   }
 
