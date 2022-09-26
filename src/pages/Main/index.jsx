@@ -1,6 +1,6 @@
 import React from 'react'
-import { Card } from "../Card";
-import { Search } from "../Search";
+import { Card } from "../../components/Card";
+import { Search } from "../../components/Search";
 
 export const Main = ({items, loader, searchValue, setSearchValue, onAddItemCart, onAddFavorite}) => {
   return (
@@ -23,10 +23,12 @@ export const Main = ({items, loader, searchValue, setSearchValue, onAddItemCart,
             .map((item, idx) =>
               <Card
                 key={idx}
+                id={item.id}
                 title={item.title}
                 price={item.price}
                 imgUrl={item.img}
-                onFavorite={(obj) => onAddFavorite(obj)}
+                favorite={item.favorite}
+                onFavorite={(obj, setLoad) => onAddFavorite(obj, setLoad)}
                 onPlus={(obj, setLoad) => onAddItemCart(obj, setLoad)}
               />
             )}

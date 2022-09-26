@@ -4,27 +4,32 @@ import { useState } from 'react';
 import { LoadSpiner } from '../LoadSpiner'
 
 
-export const Card = ({title, price, imgUrl, onPlus, onFavorite }) => {
+export const Card = ({ id, title, price, imgUrl, favorite, onPlus, onFavorite }) => {
 
   const [isAdded, setIsAdded] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
   const [loadPost, setLoadPost] = useState(false);
+  const [putFavorite, setPutFavorite] = useState(false);
 
   const handleClick = () => {
-    onPlus({title, price, imgUrl}, setLoadPost);
+    onPlus({ title, price, imgUrl }, setLoadPost);
     setIsAdded(!isAdded);
   }
 
   const clickFavorite = () => {
-    onFavorite({title, price, imgUrl});
+    onFavorite({ id, favorite }, setPutFavorite);
     setIsFavorite(!isFavorite);
   }
 
   return (
     <div className={styles.card}>
-      <div className={styles.favorite} onClick={clickFavorite}>
-        <img src={`${isFavorite ? "/img/liked.svg" :"/img/unliked.svg"}`} alt="Unliked" />
-      </div>
+      {putFavorite ? <LoadSpiner /> :
+        (
+          <div className={styles.favorite} onClick={clickFavorite}>
+            <img src={`${isFavorite || favorite === true ? "/img/liked.svg" : "/img/unliked.svg"}`} alt="Unliked" />
+          </div>
+        )
+      }
       <img width={133} height={112} className={styles.card__img} src={`img/sneakers/${imgUrl}`} alt="" />
       <p className={`${styles.card__name} mt-15`}>{title}</p>
       <div className={`${styles.card__info} d-flex justify-between mt-15 align-center`}>
