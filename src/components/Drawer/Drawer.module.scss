@@ -116,19 +116,6 @@
       }
     }
 
-    .green__btn {
-      position: relative;
-      height: 55px;
-      background: #9dd558;
-      border-radius: 18px;
-      border: none;
-      color: #ffffff;
-      font-size: 16px;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all .2s ease-in-out;
-    }
-
     .card__empty{
       display: flex;
       flex-direction: column;
@@ -150,22 +137,6 @@
         line-height: 24px;
         opacity: 0.4;
         margin-bottom:40px ;
-      }
-      .empty__btn {
-        width: 250px;
-        > img {
-          position: absolute;
-          left: 30px;
-          top: 20px;
-          transform: rotate(180deg) !important;
-          transition: all .15s ease-in-out;
-        }
-        &:hover {
-          background: lighten(#9dd558, 5%);
-        }
-        &:active {
-          background: darken(#9dd558, 5%);
-        }
       }
     }
   }

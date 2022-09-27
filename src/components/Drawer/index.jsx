@@ -29,7 +29,7 @@ export const Drawer = ({ cartItems = [], onClose, onDelete }) => {
               <img width={120} height={120} src="img/empty-cart.jpg" alt="Empty" />
               <h2>Корзина пустая</h2>
               <p>Добавьте хотя бы одну пару кроссовок, чтобы сделать заказ.</p>
-              <button onClick={onClose} className={`${styles.green__btn} ${styles.empty__btn}`}><img src="img/arrow.svg" alt="Arrow" />Вернуться назад</button>
+              <button onClick={onClose} className="green__btn empty__btn"><img src="img/arrow.svg" alt="Arrow" />Вернуться назад</button>
             </div>
             )
           }
@@ -48,7 +48,7 @@ export const Drawer = ({ cartItems = [], onClose, onDelete }) => {
                 <b>498 р.</b>
               </li>
             </ul>
-            <button className={`${styles.green__btn} ${styles.buy__btn}`}>Оформить заказ <img src="img/arrow.svg" alt="Arrow" /></button>
+            <button className={`green__btn ${styles.buy__btn}`}>Оформить заказ <img src="img/arrow.svg" alt="Arrow" /></button>
           </div>
         )
           : null
