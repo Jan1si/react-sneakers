@@ -28,8 +28,8 @@ export const Main = ({items, loader, searchValue, setSearchValue, onAddItemCart,
                 price={item.price}
                 imgUrl={item.img}
                 favorite={item.favorite}
-                onFavorite={(obj, setLoad) => onAddFavorite(obj, setLoad)}
-                onPlus={(obj, setLoad) => onAddItemCart(obj, setLoad)}
+                onFavorite={(obj) => onAddFavorite(obj)}
+                onPlus={(obj) => onAddItemCart(obj)}
               />
             )}
         </ul>

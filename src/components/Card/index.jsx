@@ -1,35 +1,28 @@
 import React from 'react'
 import styles from './Card.module.scss';
 import { useState } from 'react';
-import { LoadSpiner } from '../LoadSpiner'
 
 
 export const Card = ({ id, title, price, imgUrl, favorite, onPlus, onFavorite }) => {
 
   const [isAdded, setIsAdded] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
-  const [loadPost, setLoadPost] = useState(false);
-  const [putFavorite, setPutFavorite] = useState(false);
 
   const handleClick = () => {
-    onPlus({ title, price, imgUrl }, setLoadPost);
+    onPlus({ title, price, imgUrl });
     setIsAdded(!isAdded);
   }
 
   const clickFavorite = () => {
-    onFavorite({ id, favorite }, setPutFavorite);
+    onFavorite({ id, title, price, imgUrl, favorite });
     setIsFavorite(!isFavorite);
   }
 
   return (
     <div className={styles.card}>
-      {putFavorite ? <LoadSpiner /> :
-        (
-          <div className={styles.favorite} onClick={clickFavorite}>
-            <img src={`${isFavorite || favorite === true ? "/img/liked.svg" : "/img/unliked.svg"}`} alt="Unliked" />
-          </div>
-        )
-      }
+      <div className={styles.favorite} onClick={clickFavorite}>
+        <img src={`${isFavorite || favorite === true ? "/img/liked.svg" : "/img/unliked.svg"}`} alt="Unliked" />
+      </div>
       <img width={133} height={112} className={styles.card__img} src={`img/sneakers/${imgUrl}`} alt="" />
       <p className={`${styles.card__name} mt-15`}>{title}</p>
       <div className={`${styles.card__info} d-flex justify-between mt-15 align-center`}>
@@ -37,13 +30,10 @@ export const Card = ({ id, title, price, imgUrl, favorite, onPlus, onFavorite })
           <span>Цена: </span>
           <b>{price} р.</b>
         </div>
-        {loadPost ? <LoadSpiner /> :
-          (<img
-            className={styles.plus}
-            onClick={handleClick}
-            src={isAdded ? "/img/btn-checked.svg" : "/img/btn-plus.svg"} alt="Plus" />
-          )
-        }
+        <img
+          className={styles.plus}
+          onClick={handleClick}
+          src={isAdded ? "/img/btn-checked.svg" : "/img/btn-plus.svg"} alt="Plus" />
       </div>
     </div>
   )
