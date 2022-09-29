@@ -19,7 +19,11 @@ function App() {
       .then(({ data }) => {
         setItems(data);
         setLoader(false);
-        setFavorite(data.filter(item => item.favorite === true));
+      });
+
+    axios.get("http://localhost:3001/favorite")
+      .then(({ data}) => {
+        setFavorite(data);
       });
 
     axios.get("http://localhost:3001/cart")
@@ -38,20 +42,23 @@ function App() {
     }
   };
 
-  const onAddFavorite = async ({ id, title, price, imgUrl, favorite }) => {
-    try {
-      const article = {
-        id: id,
-        title: title,
-        price: price,
-        img: imgUrl,
-        favorite: !favorite
-      };
-      const {status} = await axios.put(`http://localhost:3001/product/${id}`, article);
-      setFavorite((favorite) => [...favorite, favorite.filter(item => item.favorite === true)]);
-      console.log(status);
-    } catch (error) {
-      alert("Неудалось добавить товар в закладки!");
+  const onAddFavorite = async (obj) => {
+    if (favorite.find((favObj) => favObj.id === obj.id)) {
+      try {
+        const { status } = await axios.delete(`http://localhost:3001/favorite/${obj.id}`);
+        setFavorite((favorite) => favorite.filter((item) => item.id !== obj.id));
+        console.log(`Товар удалён из закладок! Ответ:${status}`);
+      } catch (error) {
+        alert(`Произошла ошибка, неудалось удалить товар из закладок! Ответ:${error}`);
+      }
+    } else {
+      try {
+        const { data, status } = await axios.post("http://localhost:3001/favorite", obj);
+        setFavorite((favorite) => [...favorite, data]);
+        console.log(`Товар добавлен в закладки! Ответ:${status}`);
+      } catch (error) {
+        alert(`Произошла ошибка, неудалось добавить товар в закладки! Ответ:${error}`);
+      }
     }
   }
 
@@ -89,6 +96,7 @@ function App() {
         />
         <Route path="/favorite" element={
           <Favorite
+            inFavorite={true}
             favorite={favorite}
             onAddFavorite={onAddFavorite}
             onAddItemCart={onAddItemCart}

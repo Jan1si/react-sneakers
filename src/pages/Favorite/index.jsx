@@ -2,7 +2,7 @@ import React from 'react';
 import { Card } from '../../components/Card';
 import { Link } from 'react-router-dom';
 
-export const Favorite = ({ favorite, onAddItemCart, onAddFavorite }) => {
+export const Favorite = ({inFavorite, favorite, onAddItemCart, onAddFavorite }) => {
   return (
     <div className="content">
 
@@ -20,7 +20,8 @@ export const Favorite = ({ favorite, onAddItemCart, onAddFavorite }) => {
               id={item.id}
               title={item.title}
               price={item.price}
-              imgUrl={item.img}
+              imgUrl={item.imgUrl}
+              inFavorite={inFavorite}
               favorite={item.favorite}
               onFavorite={(obj, setLoad) => onAddFavorite(obj, setLoad)}
               onPlus={(obj, setLoad) => onAddItemCart(obj, setLoad)}

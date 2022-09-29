@@ -26,7 +26,7 @@ export const Main = ({items, loader, searchValue, setSearchValue, onAddItemCart,
                 id={item.id}
                 title={item.title}
                 price={item.price}
-                imgUrl={item.img}
+                imgUrl={item.imgUrl}
                 favorite={item.favorite}
                 onFavorite={(obj) => onAddFavorite(obj)}
                 onPlus={(obj) => onAddItemCart(obj)}
