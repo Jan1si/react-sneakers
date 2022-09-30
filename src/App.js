@@ -12,14 +12,15 @@ function App() {
   const [favorite, setFavorite] = useState([]);
   const [cartOpened, setCartOpened] = useState(false);
   const [searchValue, setSearchValue] = useState('');
-  const [loader, setLoader] = useState(false);
+  const [loader, setLoader] = useState(true);
 
   useEffect(() => {
     async function fetchData() {
+      setLoader(true);
       const { data: productData } = await axios.get("http://localhost:3001/product")
       const { data: favoriteData } = await axios.get("http://localhost:3001/favorite")
       const { data: cartData } = await axios.get("http://localhost:3001/cart")
-
+      setLoader(false);
       setCartItems(cartData);
       setFavorite(favoriteData);
       setItems(productData);
