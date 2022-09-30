@@ -17,12 +17,8 @@ export const Favorite = ({inFavorite, favorite, onAddItemCart, onAddFavorite }) 
           favorite.map((item, idx) =>
             <Card
               key={idx}
-              id={item.id}
-              title={item.title}
-              price={item.price}
-              imgUrl={item.imgUrl}
+              {...item}
               inFavorite={inFavorite}
-              favorite={item.favorite}
               onFavorite={(obj, setLoad) => onAddFavorite(obj, setLoad)}
               onPlus={(obj, setLoad) => onAddItemCart(obj, setLoad)}
             />

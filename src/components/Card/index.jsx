@@ -9,7 +9,7 @@ export const Card = ({ id, title, price, imgUrl, onPlus, onFavorite, inFavorite 
   const [isFavorite, setIsFavorite] = useState(false);
 
   const handleClick = () => {
-    onPlus({ title, price, imgUrl });
+    onPlus({ id, title, price, imgUrl });
     setIsAdded(!isAdded);
   }
 

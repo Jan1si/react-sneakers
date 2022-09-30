@@ -12,34 +12,40 @@ function App() {
   const [favorite, setFavorite] = useState([]);
   const [cartOpened, setCartOpened] = useState(false);
   const [searchValue, setSearchValue] = useState('');
-  const [loader, setLoader] = useState(true);
+  const [loader, setLoader] = useState(false);
 
   useEffect(() => {
-    axios.get("http://localhost:3001/product")
-      .then(({ data }) => {
-        setItems(data);
-        setLoader(false);
-      });
+    async function fetchData() {
+      const { data: productData } = await axios.get("http://localhost:3001/product")
+      const { data: favoriteData } = await axios.get("http://localhost:3001/favorite")
+      const { data: cartData } = await axios.get("http://localhost:3001/cart")
 
-    axios.get("http://localhost:3001/favorite")
-      .then(({ data}) => {
-        setFavorite(data);
-      });
-
-    axios.get("http://localhost:3001/cart")
-      .then(({ data }) => {
-        setCartItems(data);
-      });
-
+      setCartItems(cartData);
+      setFavorite(favoriteData);
+      setItems(productData);
+    }
+    fetchData();
   }, []);
 
   const onAddItemCart = async (obj) => {
-    try {
-      const {data} = await axios.post("http://localhost:3001/cart", obj);
-      setCartItems((cartItems) => [...cartItems, data]);
-    } catch (error) {
-      alert("Произошла ошибка, не удалось добавить продукт в корзину!");
+    if (cartItems.find((cartObj) => cartObj.id === obj.id)) {
+      try {
+        const { status } = await axios.delete(`http://localhost:3001/cart/${obj.id}`);
+        setCartItems((cartItems) => cartItems.filter((item) => item.id !== obj.id));
+        console.log(status);
+      } catch (error) {
+        alert("Произошла ошибка, не удалось удалить продукт из корзины!");
+      }
+    } else {
+      try {
+        const { data, status } = await axios.post("http://localhost:3001/cart", obj);
+        setCartItems((cartItems) => [...cartItems, data]);
+        console.log(status);
+      } catch (error) {
+        alert("Произошла ошибка, не удалось добавить продукт в корзину!");
+      }
     }
+
   };
 
   const onAddFavorite = async (obj) => {
@@ -62,9 +68,9 @@ function App() {
     }
   }
 
-  const onDeleteItemCart =  async (id) => {
+  const onDeleteItemCart = async (id) => {
     try {
-      const {status} = await axios.delete(`http://localhost:3001/cart/${id}`);
+      const { status } = await axios.delete(`http://localhost:3001/cart/${id}`);
       setCartItems((cartItems) => cartItems.filter((item) => item.id !== id));
       console.log(status);
     } catch (error) {

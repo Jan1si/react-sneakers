@@ -23,11 +23,7 @@ export const Main = ({items, loader, searchValue, setSearchValue, onAddItemCart,
             .map((item, idx) =>
               <Card
                 key={idx}
-                id={item.id}
-                title={item.title}
-                price={item.price}
-                imgUrl={item.imgUrl}
-                favorite={item.favorite}
+                {...item}
                 onFavorite={(obj) => onAddFavorite(obj)}
                 onPlus={(obj) => onAddItemCart(obj)}
               />
