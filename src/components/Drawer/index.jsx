@@ -1,7 +1,11 @@
 import React from 'react'
 import styles from './Drawer.module.scss';
+import {useContext} from 'react';
+import { AppContext } from '../../App';
 
-export const Drawer = ({ cartItems = [], onClose, onDelete }) => {
+export const Drawer = ({onClose, onDelete }) => {
+
+  const {cartItems} = useContext(AppContext);
 
   return (
     <div className={styles.owerlay}>

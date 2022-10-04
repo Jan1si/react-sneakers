@@ -1,27 +1,31 @@
 import React from 'react'
 import styles from './Card.module.scss';
-import { useState } from 'react';
+import { AppContext } from '../../App';
+import { useContext } from 'react';
 
 
-export const Card = ({ id, title, price, imgUrl, onPlus, onFavorite, inFavorite }) => {
+export const Card = (
+  { id,
+    title,
+    price,
+    imgUrl,
+    onPlus,
+    onFavorite,}) => {
 
-  const [isAdded, setIsAdded] = useState(false);
-  const [isFavorite, setIsFavorite] = useState(false);
+  const { hasAddToCart, hasAddToFavorite } = useContext(AppContext);
 
   const handleClick = () => {
     onPlus({ id, title, price, imgUrl });
-    setIsAdded(!isAdded);
   }
 
   const clickFavorite = () => {
     onFavorite({ id, title, price, imgUrl });
-    setIsFavorite(!isFavorite);
   }
 
   return (
     <div className={styles.card}>
       <div className={styles.favorite} onClick={clickFavorite}>
-        <img src={isFavorite || inFavorite ?  "/img/liked.svg" : "/img/unliked.svg"} alt="Unliked" />
+        <img src={hasAddToFavorite(id) ? "/img/liked.svg" : "/img/unliked.svg"} alt="Unliked" />
       </div>
       <img width={133} height={112} className={styles.card__img} src={`img/sneakers/${imgUrl}`} alt="" />
       <p className={`${styles.card__name} mt-15`}>{title}</p>
@@ -33,7 +37,7 @@ export const Card = ({ id, title, price, imgUrl, onPlus, onFavorite, inFavorite 
         <img
           className={styles.plus}
           onClick={handleClick}
-          src={isAdded ? "/img/btn-checked.svg" : "/img/btn-plus.svg"} alt="Plus" />
+          src={hasAddToCart(id) ? "/img/btn-checked.svg" : "/img/btn-plus.svg"} alt="Plus" />
       </div>
     </div>
   )

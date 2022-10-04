@@ -1,8 +1,14 @@
 import React from 'react';
 import { Card } from '../../components/Card';
 import { Link } from 'react-router-dom';
+import { AppContext } from '../../App';
+import { useContext } from 'react';
 
-export const Favorite = ({inFavorite, favorite, onAddItemCart, onAddFavorite }) => {
+
+export const Favorite = () => {
+
+  const { favorite, onAddFavorite, onAddItemCart } = useContext(AppContext);
+
   return (
     <div className="content">
 
@@ -13,14 +19,14 @@ export const Favorite = ({inFavorite, favorite, onAddItemCart, onAddFavorite }) 
       ) : null}
 
       <ul className="list__product mt-40 d-flex">
+        
         {favorite.length > 0 ? (
-          favorite.map((item, idx) =>
+          favorite.map((item, idx) => 
             <Card
               key={idx}
               {...item}
-              inFavorite={inFavorite}
-              onFavorite={(obj, setLoad) => onAddFavorite(obj, setLoad)}
-              onPlus={(obj, setLoad) => onAddItemCart(obj, setLoad)}
+              onFavorite={(obj) => onAddFavorite(obj)}
+              onPlus={(obj) => onAddItemCart(obj)}
             />
           )
         ) : (
