@@ -1,11 +1,12 @@
 import React from 'react'
 import styles from './Drawer.module.scss';
-import {useContext} from 'react';
+import { useContext } from 'react';
 import { AppContext } from '../../App';
+import { Info } from '../Info';
 
-export const Drawer = ({onClose, onDelete }) => {
+export const Drawer = ({ onClose, onDelete }) => {
 
-  const {cartItems} = useContext(AppContext);
+  const { cartItems } = useContext(AppContext);
 
   return (
     <div className={styles.owerlay}>
@@ -15,7 +16,7 @@ export const Drawer = ({onClose, onDelete }) => {
           <img onClick={onClose} className={styles.remove__btn} src="img/btn-remove.svg" alt="Close" />
         </div>
         <div className={styles.content__drawer}>
-          
+
           {cartItems.length > 0 ? (
             cartItems.map((item, key) => (
               <div key={key} className={styles.cart__item}>
@@ -29,12 +30,16 @@ export const Drawer = ({onClose, onDelete }) => {
             ))
           )
             : (
-              <div className={styles.card__empty}>
-              <img width={120} height={120} src="img/empty-cart.jpg" alt="Empty" />
-              <h2>Корзина пустая</h2>
-              <p>Добавьте хотя бы одну пару кроссовок, чтобы сделать заказ.</p>
-              <button onClick={onClose} className="green__btn empty__btn"><img src="img/arrow.svg" alt="Arrow" />Вернуться назад</button>
-            </div>
+              <Info
+              title={"Заголовок"}
+              description={"Описание"}
+              onClose={onClose}  />
+              // <div className={styles.card__empty}>
+              //   <img width={120} src="img/empty-cart.jpg" alt="Empty" />
+              //   <h2>Корзина пустая</h2>
+              //   <p>Добавьте хотя бы одну пару кроссовок, чтобы сделать заказ.</p>
+              //   <button onClick={onClose} className="green__btn empty__btn"><img src="img/arrow.svg" alt="Arrow" />Вернуться назад</button>
+              // </div>
             )
           }
         </div>
