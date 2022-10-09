@@ -1,12 +1,18 @@
 import React from 'react'
 import styles from './Drawer.module.scss';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { AppContext } from '../../App';
 import { Info } from '../Info';
 
 export const Drawer = ({ onClose, onDelete }) => {
 
-  const { cartItems } = useContext(AppContext);
+  const { cartItems, onAddToOrder } = useContext(AppContext);
+  const [orders, setOrders] = useState(false);
+
+  const sendCartItems = (obj) => {
+    setOrders(true);
+    onAddToOrder(obj);
+  }
 
   return (
     <div className={styles.owerlay}>
@@ -30,10 +36,18 @@ export const Drawer = ({ onClose, onDelete }) => {
             ))
           )
             : (
+              orders ? 
               <Info
-              title={"Заголовок"}
-              description={"Описание"}
-              onClose={onClose}  />
+              title={"Заказ оформлен"}
+              description={"что-то"}
+              onClose={onClose}  
+            />
+              :
+              <Info
+                title={"Корзина пустая"}
+                description={"Добавьте хотя бы одну пару кроссовок, чтобы сделать заказ."}
+                onClose={onClose}  
+              />
               // <div className={styles.card__empty}>
               //   <img width={120} src="img/empty-cart.jpg" alt="Empty" />
               //   <h2>Корзина пустая</h2>
@@ -57,7 +71,7 @@ export const Drawer = ({ onClose, onDelete }) => {
                 <b>498 р.</b>
               </li>
             </ul>
-            <button className={`green__btn ${styles.buy__btn}`}>Оформить заказ <img src="img/arrow.svg" alt="Arrow" /></button>
+            <button onClick={() => sendCartItems(cartItems)} className={`green__btn ${styles.buy__btn}`}>Оформить заказ <img src="img/arrow.svg" alt="Arrow" /></button>
           </div>
         )
           : null
