@@ -81,6 +81,21 @@ function App() {
     }
   };
 
+  const onAddToOrder = async (obj) => {
+    try {
+      const { data } = await axios.post("http://localhost:3001/orders", obj);
+      const { status } = await axios.put("http://localhost:3001/cart", {
+        data: {}
+      });
+      setCartItems([]);
+      console.log(status);
+      console.log(cartItems);
+    } catch (error) {
+      alert(error);
+      console.log(cartItems);
+    }
+  }
+
   const hasAddToCart = (id) => {
     return (cartItems.some((obj) => obj.id === id));
   }
@@ -90,30 +105,41 @@ function App() {
   }
 
   return (
-    <AppContext.Provider value={{items, cartItems, favorite, onAddItemCart,onAddFavorite, hasAddToCart, hasAddToFavorite}}>
-    <div className="wrapper">
-      {cartOpened &&
-        <Drawer
-          onClose={() => setCartOpened(false)}
-          onDelete={onDeleteItemCart}
-        />
+    <AppContext.Provider value={
+      {
+        items,
+        cartItems,
+        favorite,
+        onAddItemCart,
+        onAddFavorite,
+        onAddToOrder,
+        hasAddToCart,
+        hasAddToFavorite
       }
-      <Header onClickCart={() => setCartOpened(true)} />
-      <Routes>
-        <Route exact path="/" element={
-          <Main
-            searchValue={searchValue}
-            setSearchValue={setSearchValue}
-            loader={loader}
+    }>
+      <div className="wrapper">
+        {cartOpened &&
+          <Drawer
+            onClose={() => setCartOpened(false)}
+            onDelete={onDeleteItemCart}
           />
         }
-        />
-        <Route path="/favorite" element={
-          <Favorite />
-        }
-        />
-      </Routes>
-    </div>
+        <Header onClickCart={() => setCartOpened(true)} />
+        <Routes>
+          <Route exact path="/" element={
+            <Main
+              searchValue={searchValue}
+              setSearchValue={setSearchValue}
+              loader={loader}
+            />
+          }
+          />
+          <Route path="/favorite" element={
+            <Favorite />
+          }
+          />
+        </Routes>
+      </div>
     </AppContext.Provider >
   );
 }
