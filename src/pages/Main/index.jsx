@@ -18,9 +18,8 @@ export const Main = (
     const filterItems = items.filter(item => item.title.toLowerCase().includes(searchValue.toLowerCase()))
 
     return (loader ? [...Array(10)] : filterItems).map((item, idx) => (
-      loader ? <div className={styles.card}>
+      loader ? <div className={styles.card} key={idx}>
         <ContentLoader
-          key={idx}
           speed={2}
           width={200}
           height={270}

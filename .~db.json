@@ -61,14 +61,7 @@
       "imgUrl": "10.jpg"
     }
   ],
-  "cart": [
-    {
-      "id": "3",
-      "title": "Мужские Кроссовки Nike Blazer Mid Suede",
-      "price": "8499",
-      "imgUrl": "3.jpg"
-    }
-  ],
+  "cart": [],
   "favorite": [],
   "orders": [
     {

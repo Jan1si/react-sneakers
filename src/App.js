@@ -15,6 +15,7 @@ function App() {
   const [cartOpened, setCartOpened] = useState(false);
   const [searchValue, setSearchValue] = useState('');
   const [loader, setLoader] = useState(true);
+  const [orderId, setOrderId] = useState(0);
 
   useEffect(() => {
     async function fetchData() {
@@ -83,13 +84,18 @@ function App() {
 
   const onAddToOrder = async (obj) => {
     try {
-      const { data } = await axios.post("http://localhost:3001/orders", obj);
-      const { status } = await axios.put("http://localhost:3001/cart", {
-        data: {}
+      const date = new Date();
+      const { data } = await axios.post("http://localhost:3001/orders", {
+        items:{
+          obj,
+          date
+        },
       });
+      for (let item of obj) {
+        await axios.delete(`http://localhost:3001/cart/${item.id}`);
+      }
+      setOrderId(data.id);
       setCartItems([]);
-      console.log(status);
-      console.log(cartItems);
     } catch (error) {
       alert(error);
       console.log(cartItems);
@@ -110,6 +116,7 @@ function App() {
         items,
         cartItems,
         favorite,
+        orderId,
         onAddItemCart,
         onAddFavorite,
         onAddToOrder,

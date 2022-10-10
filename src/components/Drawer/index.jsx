@@ -6,7 +6,7 @@ import { Info } from '../Info';
 
 export const Drawer = ({ onClose, onDelete }) => {
 
-  const { cartItems, onAddToOrder } = useContext(AppContext);
+  const { cartItems, orderId, onAddToOrder } = useContext(AppContext);
   const [orders, setOrders] = useState(false);
 
   const sendCartItems = (obj) => {
@@ -38,12 +38,14 @@ export const Drawer = ({ onClose, onDelete }) => {
             : (
               orders ? 
               <Info
-              title={"Заказ оформлен"}
+              key={"order"}
+              title={`Заказ №${orderId} оформлен`}
               description={"что-то"}
               onClose={onClose}  
             />
               :
               <Info
+                key={"empty"}
                 title={"Корзина пустая"}
                 description={"Добавьте хотя бы одну пару кроссовок, чтобы сделать заказ."}
                 onClose={onClose}  
