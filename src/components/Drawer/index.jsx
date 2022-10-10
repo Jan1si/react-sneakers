@@ -6,7 +6,7 @@ import { Info } from '../Info';
 
 export const Drawer = ({ onClose, onDelete }) => {
 
-  const { cartItems, orderId, onAddToOrder } = useContext(AppContext);
+  const { cartItems, orderId, onAddToOrder, totalPrice } = useContext(AppContext);
   const [orders, setOrders] = useState(false);
 
   const sendCartItems = (obj) => {
@@ -39,6 +39,7 @@ export const Drawer = ({ onClose, onDelete }) => {
               orders ? 
               <Info
               key={"order"}
+              img={"img/complete-order.jpg"}
               title={`Заказ №${orderId} оформлен`}
               description={"что-то"}
               onClose={onClose}  
@@ -46,16 +47,11 @@ export const Drawer = ({ onClose, onDelete }) => {
               :
               <Info
                 key={"empty"}
+                img={"img/empty-cart.jpg"}
                 title={"Корзина пустая"}
                 description={"Добавьте хотя бы одну пару кроссовок, чтобы сделать заказ."}
                 onClose={onClose}  
               />
-              // <div className={styles.card__empty}>
-              //   <img width={120} src="img/empty-cart.jpg" alt="Empty" />
-              //   <h2>Корзина пустая</h2>
-              //   <p>Добавьте хотя бы одну пару кроссовок, чтобы сделать заказ.</p>
-              //   <button onClick={onClose} className="green__btn empty__btn"><img src="img/arrow.svg" alt="Arrow" />Вернуться назад</button>
-              // </div>
             )
           }
         </div>
@@ -65,12 +61,12 @@ export const Drawer = ({ onClose, onDelete }) => {
               <li className="d-flex">
                 <span>Итого:</span>
                 <div className={styles.dash}></div>
-                <b>21 498 р.</b>
+                <b>{totalPrice()} р.</b>
               </li>
               <li className="d-flex">
                 <span>Налог 5%:</span>
                 <div className={styles.dash}></div>
-                <b>498 р.</b>
+                <b>{Math.round(totalPrice() * 0.05)} р.</b>
               </li>
             </ul>
             <button onClick={() => sendCartItems(cartItems)} className={`green__btn ${styles.buy__btn}`}>Оформить заказ <img src="img/arrow.svg" alt="Arrow" /></button>

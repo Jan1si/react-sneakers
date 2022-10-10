@@ -1,10 +1,13 @@
 import { Drawer } from "./components/Drawer";
 import { Header } from "./components/Header";
 import { Main } from "./pages/Main";
+import { Favorite } from "./pages/Favorite";
+import { Orders } from "./pages/Orders";
 import { useState, useEffect, createContext } from "react";
 import { Routes, Route } from 'react-router-dom';
 import axios from "axios";
-import { Favorite } from "./pages/Favorite";
+
+
 
 export const AppContext = createContext({});
 
@@ -19,14 +22,19 @@ function App() {
 
   useEffect(() => {
     async function fetchData() {
-      setLoader(true);
-      const { data: productData } = await axios.get("http://localhost:3001/product")
-      const { data: favoriteData } = await axios.get("http://localhost:3001/favorite")
-      const { data: cartData } = await axios.get("http://localhost:3001/cart")
-      setLoader(false);
-      setCartItems(cartData);
-      setFavorite(favoriteData);
-      setItems(productData);
+      try {
+        setLoader(true);
+        const { data: productData } = await axios.get("http://localhost:3001/product")
+        const { data: favoriteData } = await axios.get("http://localhost:3001/favorite")
+        const { data: cartData } = await axios.get("http://localhost:3001/cart")
+        setLoader(false);
+        setCartItems(cartData);
+        setFavorite(favoriteData);
+        setItems(productData);
+      } catch (error) {
+        alert("Не удалось получить данные с сервера!")
+      }
+
     }
     fetchData();
   }, []);
@@ -86,11 +94,12 @@ function App() {
     try {
       const date = new Date();
       const { data } = await axios.post("http://localhost:3001/orders", {
-        items:{
+        items: {
           obj,
           date
         },
       });
+      
       for (let item of obj) {
         await axios.delete(`http://localhost:3001/cart/${item.id}`);
       }
@@ -110,6 +119,10 @@ function App() {
     return (favorite.some((obj) => obj.id === id));
   }
 
+  const totalPrice  = () => {
+    return cartItems.reduce((sum, obj) => Number(obj.price.replace( /\s/g, "")) + Number(sum), 0);
+  }
+
   return (
     <AppContext.Provider value={
       {
@@ -117,11 +130,13 @@ function App() {
         cartItems,
         favorite,
         orderId,
+        loader,
         onAddItemCart,
         onAddFavorite,
         onAddToOrder,
         hasAddToCart,
-        hasAddToFavorite
+        hasAddToFavorite,
+        totalPrice,
       }
     }>
       <div className="wrapper">
@@ -137,12 +152,15 @@ function App() {
             <Main
               searchValue={searchValue}
               setSearchValue={setSearchValue}
-              loader={loader}
             />
           }
           />
           <Route path="/favorite" element={
             <Favorite />
+          }
+          />
+          <Route path="/orders" element={
+            <Orders />
           }
           />
         </Routes>
