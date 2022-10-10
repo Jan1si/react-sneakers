@@ -11,7 +11,6 @@ export const Orders = () => {
 
   useEffect(() => {
     axios.get("http://localhost:3001/orders").then(({ data }) => {
-      console.log(data);
       setOrders(data);
     });
   }, [])

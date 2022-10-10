@@ -1,12 +1,13 @@
 import { Drawer } from "./components/Drawer";
 import { Header } from "./components/Header";
+
 import { Main } from "./pages/Main";
 import { Favorite } from "./pages/Favorite";
 import { Orders } from "./pages/Orders";
+
 import { useState, useEffect, createContext } from "react";
 import { Routes, Route } from 'react-router-dom';
 import axios from "axios";
-
 
 
 export const AppContext = createContext({});
@@ -19,6 +20,12 @@ function App() {
   const [searchValue, setSearchValue] = useState('');
   const [loader, setLoader] = useState(true);
   const [orderId, setOrderId] = useState(0);
+
+  if (cartOpened) {
+    document.body.style.overflow = "hidden";
+  } else {
+    document.body.style.overflow = "";
+  }
 
   useEffect(() => {
     async function fetchData() {
@@ -92,14 +99,22 @@ function App() {
 
   const onAddToOrder = async (obj) => {
     try {
-      const date = new Date();
+      const options = {
+        year: 'numeric',
+        month: 'numeric',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+        timezone: 'UTC'
+      };
+      const date = new Date().toLocaleString("ru", options);
       const { data } = await axios.post("http://localhost:3001/orders", {
         items: {
           obj,
           date
         },
       });
-      
+
       for (let item of obj) {
         await axios.delete(`http://localhost:3001/cart/${item.id}`);
       }
@@ -119,10 +134,10 @@ function App() {
     return (favorite.some((obj) => obj.id === id));
   }
 
-  const totalPrice  = () => {
-    return cartItems.reduce((sum, obj) => Number(obj.price.replace( /\s/g, "")) + Number(sum), 0);
+  const totalPrice = () => {
+    return cartItems.reduce((sum, obj) => Number(obj.price.replace(/\s/g, "")) + Number(sum), 0);
   }
-
+  // 
   return (
     <AppContext.Provider value={
       {
@@ -139,13 +154,12 @@ function App() {
         totalPrice,
       }
     }>
-      <div className="wrapper">
-        {cartOpened &&
-          <Drawer
-            onClose={() => setCartOpened(false)}
-            onDelete={onDeleteItemCart}
-          />
-        }
+      <div className="wrapper" >
+        <Drawer
+          opened={cartOpened}
+          onClose={() => setCartOpened(false)}
+          onDelete={onDeleteItemCart}
+        />
         <Header onClickCart={() => setCartOpened(true)} />
         <Routes>
           <Route exact path="/" element={

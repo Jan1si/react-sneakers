@@ -4,8 +4,7 @@ import { useContext, useState } from 'react';
 import { AppContext } from '../../App';
 import { Info } from '../Info';
 
-export const Drawer = ({ onClose, onDelete }) => {
-
+export const Drawer = ({opened, onClose, onDelete }) => {
   const { cartItems, orderId, onAddToOrder, totalPrice } = useContext(AppContext);
   const [orders, setOrders] = useState(false);
 
@@ -14,9 +13,10 @@ export const Drawer = ({ onClose, onDelete }) => {
     onAddToOrder(obj);
   }
 
+
   return (
-    <div className={styles.owerlay}>
-      <div className={styles.drawer}>
+    <div className={` ${styles.owerlay} ${opened ? styles.owerlay__active: ''}`}>
+      <div className={`${styles.drawer} ${opened ? styles.drawer__active: ''}`}>
         <div className={styles.header__drawer}>
           <h2>Корзина</h2>
           <img onClick={onClose} className={styles.remove__btn} src="img/btn-remove.svg" alt="Close" />
